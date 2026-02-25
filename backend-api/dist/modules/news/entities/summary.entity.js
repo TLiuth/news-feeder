@@ -42,9 +42,8 @@ __decorate([
     __metadata("design:type", Object)
 ], SummaryEntity.prototype, "bullet_points", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => article_entity_1.ArticleEntity),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", article_entity_1.ArticleEntity)
+    (0, typeorm_1.OneToMany)(() => article_entity_1.ArticleEntity, (article) => article.summary),
+    __metadata("design:type", Array)
 ], SummaryEntity.prototype, "article", void 0);
 __decorate([
     (0, typeorm_1.Column)({

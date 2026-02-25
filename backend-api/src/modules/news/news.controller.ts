@@ -6,8 +6,12 @@ export class NewsController {
     constructor(private readonly newsService: NewsService) {}
 
     @Post('ingest')
-    async ingestNews(@Query('theme') theme?: string) {
-        const result = await this.newsService.fetchAndStoreNews(theme);
+    async ingestNews(
+        @Query('country') country?: string,
+        @Query('theme') theme?: string,
+        @Query('dryRun') dryRun?: string,
+        ) {
+        const result = await this.newsService.fetchAndStoreNews(theme, country, dryRun === "true",);
         return {
             success: true,
             data: result,

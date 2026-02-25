@@ -20,8 +20,8 @@ let NewsController = class NewsController {
     constructor(newsService) {
         this.newsService = newsService;
     }
-    async ingestNews(theme) {
-        const result = await this.newsService.fetchAndStoreNews(theme);
+    async ingestNews(country, theme, dryRun) {
+        const result = await this.newsService.fetchAndStoreNews(theme, country, dryRun === "true");
         return {
             success: true,
             data: result,
@@ -35,9 +35,11 @@ let NewsController = class NewsController {
 exports.NewsController = NewsController;
 __decorate([
     (0, common_1.Post)('ingest'),
-    __param(0, (0, common_1.Query)('theme')),
+    __param(0, (0, common_1.Query)('country')),
+    __param(1, (0, common_1.Query)('theme')),
+    __param(2, (0, common_1.Query)('dryRun')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], NewsController.prototype, "ingestNews", null);
 __decorate([

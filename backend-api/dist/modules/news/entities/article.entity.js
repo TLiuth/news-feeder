@@ -12,16 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArticleEntity = void 0;
 const theme_entity_1 = require("../../themes/entities/theme.entity");
 const typeorm_1 = require("typeorm");
+const summary_entity_1 = require("./summary.entity");
 let ArticleEntity = class ArticleEntity {
     id;
+    worldNewsId;
     url;
-    source;
+    source_country;
     publishedAt;
     accessDate;
     imageUrl;
     author;
     headline;
+    summary;
     body;
+    sentiment;
     themes;
 };
 exports.ArticleEntity = ArticleEntity;
@@ -30,13 +34,17 @@ __decorate([
     __metadata("design:type", Number)
 ], ArticleEntity.prototype, "id", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ unique: true, nullable: true }),
+    __metadata("design:type", String)
+], ArticleEntity.prototype, "worldNewsId", void 0);
+__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], ArticleEntity.prototype, "url", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], ArticleEntity.prototype, "source", void 0);
+], ArticleEntity.prototype, "source_country", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Date)
@@ -58,15 +66,23 @@ __decorate([
     __metadata("design:type", String)
 ], ArticleEntity.prototype, "headline", void 0);
 __decorate([
+    (0, typeorm_1.ManyToOne)(() => summary_entity_1.SummaryEntity, (summary) => summary.article, { nullable: true }),
+    __metadata("design:type", String)
+], ArticleEntity.prototype, "summary", void 0);
+__decorate([
     (0, typeorm_1.Column)('text', { nullable: true }),
     __metadata("design:type", String)
 ], ArticleEntity.prototype, "body", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], ArticleEntity.prototype, "sentiment", void 0);
 __decorate([
     (0, typeorm_1.ManyToMany)(() => theme_entity_1.ThemeEntity, (theme) => theme.articles),
     __metadata("design:type", Array)
 ], ArticleEntity.prototype, "themes", void 0);
 exports.ArticleEntity = ArticleEntity = __decorate([
     (0, typeorm_1.Entity)('articles'),
-    (0, typeorm_1.Index)(['url', 'source'], { unique: true })
+    (0, typeorm_1.Index)(['url', 'source_country'], { unique: true })
 ], ArticleEntity);
 //# sourceMappingURL=article.entity.js.map

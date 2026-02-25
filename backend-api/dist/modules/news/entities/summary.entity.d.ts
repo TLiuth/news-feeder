@@ -8,7 +8,7 @@ export declare class SummaryEntity {
     id: number;
     s_body: string;
     bullet_points: any;
-    article: ArticleEntity;
+    article: ArticleEntity[];
     processingStatus: ProcessingStatus;
     tokensUsed: number;
     model: string;

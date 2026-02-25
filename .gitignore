@@ -1,0 +1,7 @@
+backend-api/.env
+
+backend-api/.env
+backend-api/.env.local
+backend-api/node_modules/
+backend-api/dist/
+*.log

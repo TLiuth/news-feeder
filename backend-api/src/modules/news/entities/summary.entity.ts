@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, CreateDateColumn, JoinColumn} from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, CreateDateColumn, JoinColumn, OneToMany} from "typeorm"
 import { ArticleEntity } from "./article.entity"
 
 // Entity definition:
@@ -28,9 +28,8 @@ export class SummaryEntity {
     @Column("json")
     bullet_points: any
 
-    @OneToOne(() => ArticleEntity)
-    @JoinColumn()
-    article: ArticleEntity
+    @OneToMany(() => ArticleEntity, (article) => article.summary)
+    article: ArticleEntity[]
 
     @Column({
     type: 'enum',
