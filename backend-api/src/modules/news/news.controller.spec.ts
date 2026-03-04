@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NewsController } from './news.controller';
 import { NewsService } from './news.service';
-import { mock } from 'node:test';
+import { IngestNewsDto } from './dto/IngestNewsDto';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { ArticleEntity } from './entities/article.entity';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
 
 describe('NewsController', () => {
   let controller: NewsController;
@@ -37,7 +41,13 @@ describe('NewsController', () => {
     const mockResult = { fetched: 10, inserted: 8, skipped: 2, failed: 0, dryRun: true};
     newsService.fetchAndStoreNews.mockResolvedValue(mockResult);
 
-    const response = await controller.ingestNews("us", "ai", "true");
+    const body: IngestNewsDto = {
+      country: "us",
+      theme: "ai",
+      dryRun: "true",
+    }
+
+    const response = await controller.ingestNews(body);
 
     expect(newsService.fetchAndStoreNews).toHaveBeenCalledWith('ai', 'us', true);
     expect(response).toEqual({
@@ -46,11 +56,11 @@ describe('NewsController', () => {
     });
   });
 
-  it("ingestNews should parse dryRun=false when query is undefined", async () => {
+  it('ingestNews should default dryRun to false when omitted', async () => {
     const mockResult = { fetched: 0, inserted: 0, skipped: 0, failed: 0, dryRun: false};
     newsService.fetchAndStoreNews.mockResolvedValue(mockResult);
 
-    await controller.ingestNews(undefined, undefined, undefined);
+    await controller.ingestNews({} as IngestNewsDto);
 
     expect(newsService.fetchAndStoreNews).toHaveBeenCalledWith(undefined, undefined, false);
   });
@@ -59,7 +69,13 @@ describe('NewsController', () => {
     const mockResult = { fetched: 1, inserted: 1, skipped: 0, failed: 0, dryRun: false};
     newsService.fetchAndStoreNews.mockResolvedValue(mockResult)
 
-    await controller.ingestNews("br", "tech", "false");
+    const body: IngestNewsDto = {
+      country: "br",
+      theme: "tech",
+      dryRun: "false",
+    }
+
+    await controller.ingestNews(body);
 
     expect(newsService.fetchAndStoreNews).toHaveBeenCalledWith("tech", "br", false)
   });
@@ -74,10 +90,16 @@ describe('NewsController', () => {
     expect(response).toEqual({ articles: mockArticles })
   });
 
-  it('should propagate service erros from ingestNews', async () => {
+  it('should propagate service errors from ingestNews', async () => {
     newsService.fetchAndStoreNews.mockRejectedValue(new Error('boom'));
 
-    await expect(controller.ingestNews('us', 'ai', 'true')).rejects.toThrow('boom')
+    const body: IngestNewsDto = {
+      country: "us",
+      theme: "ai",
+      dryRun: "true",
+    }
+
+    await expect(controller.ingestNews(body)).rejects.toThrow('boom')
   })
 
 });

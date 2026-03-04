@@ -1,8 +1,9 @@
 import { NewsService } from './news.service';
+import { IngestNewsDto } from './dto/IngestNewsDto';
 export declare class NewsController {
     private readonly newsService;
     constructor(newsService: NewsService);
-    ingestNews(country?: string, theme?: string, dryRun?: string): Promise<{
+    ingestNews(ingestNewsDto: IngestNewsDto): Promise<{
         success: boolean;
         data: {
             fetched: number;

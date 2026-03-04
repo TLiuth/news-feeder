@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 import { NewsService } from './news.service';
+import { IngestNewsDto } from './dto/IngestNewsDto';
 
 @Controller('news')
 export class NewsController {
@@ -7,11 +8,12 @@ export class NewsController {
 
     @Post('ingest')
     async ingestNews(
-        @Query('country') country?: string,
-        @Query('theme') theme?: string,
-        @Query('dryRun') dryRun?: string,
-        ) {
-        const result = await this.newsService.fetchAndStoreNews(theme, country, dryRun === "true",);
+        // @Query('country') country?: string,  // ! Substituídos pelo dto
+        // @Query('theme') theme?: string,
+        // @Query('dryRun') dryRun?: string,
+        @Query() ingestNewsDto: IngestNewsDto) {
+        const { country, theme, dryRun } = ingestNewsDto;
+        const result = await this.newsService.fetchAndStoreNews(theme, country, dryRun === 'true');
         return {
             success: true,
             data: result,

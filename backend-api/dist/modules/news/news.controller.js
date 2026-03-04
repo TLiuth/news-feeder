@@ -15,13 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewsController = void 0;
 const common_1 = require("@nestjs/common");
 const news_service_1 = require("./news.service");
+const IngestNewsDto_1 = require("./dto/IngestNewsDto");
 let NewsController = class NewsController {
     newsService;
     constructor(newsService) {
         this.newsService = newsService;
     }
-    async ingestNews(country, theme, dryRun) {
-        const result = await this.newsService.fetchAndStoreNews(theme, country, dryRun === "true");
+    async ingestNews(ingestNewsDto) {
+        const { country, theme, dryRun } = ingestNewsDto;
+        const result = await this.newsService.fetchAndStoreNews(theme, country, dryRun === 'true');
         return {
             success: true,
             data: result,
@@ -35,11 +37,9 @@ let NewsController = class NewsController {
 exports.NewsController = NewsController;
 __decorate([
     (0, common_1.Post)('ingest'),
-    __param(0, (0, common_1.Query)('country')),
-    __param(1, (0, common_1.Query)('theme')),
-    __param(2, (0, common_1.Query)('dryRun')),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [IngestNewsDto_1.IngestNewsDto]),
     __metadata("design:returntype", Promise)
 ], NewsController.prototype, "ingestNews", null);
 __decorate([
