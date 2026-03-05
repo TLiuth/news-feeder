@@ -53,8 +53,6 @@ export class NewsService {
             const url = this.buildWorldNewsSearchUrl(theme, country);
             const apiArticles = await this.fetchFromWorldNewsAPI(url)
 
-            console.log(apiArticles)
-            console.log(`news returned: ${apiArticles.length}`)
 
             const result: IngestResult = {
                 fetched: apiArticles.length,

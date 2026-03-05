@@ -114,7 +114,7 @@ describe('NewsService', () => {
     expect(repoMock.save).toHaveBeenCalled();
   }); // end it
 
-  it("fetchAndStoreNews should not work without theme or country", async () => {
+  it("fetchAndStoreNews should work without theme or country", async () => {
     httpMock.get.mockReturnValue(of({
       data: {
         status: "ok",
