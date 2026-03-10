@@ -23,6 +23,7 @@ let UserEntity = class UserEntity {
     lastEmailSent;
     createdAt;
     updatedAt;
+    deletedAt;
 };
 exports.UserEntity = UserEntity;
 __decorate([
@@ -65,6 +66,10 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], UserEntity.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.DeleteDateColumn)(),
+    __metadata("design:type", Date)
+], UserEntity.prototype, "deletedAt", void 0);
 exports.UserEntity = UserEntity = __decorate([
     (0, typeorm_1.Entity)('users')
 ], UserEntity);

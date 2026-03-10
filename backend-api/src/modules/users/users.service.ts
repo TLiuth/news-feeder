@@ -90,7 +90,7 @@ export class UsersService {
 
     async deleteUser(id: number): Promise<[UserEntity, DeleteResult]>{
         const deletedUser = await this.userRepository.findOne({ where: {id: id}})
-        const deleteResult = await this.userRepository.delete({id: id})
+        const deleteResult = await this.userRepository.softDelete({id: id})
 
 
         if(!deletedUser){
@@ -111,6 +111,12 @@ export class UsersService {
 
         if (!result.affected) {
             throw new NotFoundException(`User ${id} not found`);
+        }
+
+        const resultResetVerified = await this.userRepository.update(id, { emailVerified: false})
+
+        if(!resultResetVerified){
+            throw new Error(`The emailVerified status could not be reset when changing the ${id} user email`)
         }
 
         return result

@@ -1,5 +1,5 @@
 import { ThemeEntity } from "src/modules/themes/entities/theme.entity"
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable} from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, DeleteDateColumn} from "typeorm"
 
 
 @Entity('users')
@@ -33,4 +33,7 @@ export class UserEntity {
 
     @UpdateDateColumn()
     updatedAt: Date
+
+    @DeleteDateColumn()
+    deletedAt: Date
 }

@@ -10,4 +10,5 @@ export declare class UserEntity {
     lastEmailSent: Date;
     createdAt: Date;
     updatedAt: Date;
+    deletedAt: Date;
 }

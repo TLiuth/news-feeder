@@ -79,7 +79,7 @@ let UsersService = UsersService_1 = class UsersService {
     }
     async deleteUser(id) {
         const deletedUser = await this.userRepository.findOne({ where: { id: id } });
-        const deleteResult = await this.userRepository.delete({ id: id });
+        const deleteResult = await this.userRepository.softDelete({ id: id });
         if (!deletedUser) {
             this.logger.log(`There is no user with provided id to be deleted: ${id}`);
             throw new common_1.NotFoundException(`User with id ${id} not found (deleteUser func)`);
@@ -95,6 +95,7 @@ let UsersService = UsersService_1 = class UsersService {
         if (!result.affected) {
             throw new common_1.NotFoundException(`User ${id} not found`);
         }
+        this.userRepository.update(id, { emailVerified: false });
         return result;
     }
     async updateUserName(id, name) {
