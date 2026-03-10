@@ -40,8 +40,6 @@ let NewsService = NewsService_1 = class NewsService {
         try {
             const url = this.buildWorldNewsSearchUrl(theme, country);
             const apiArticles = await this.fetchFromWorldNewsAPI(url);
-            console.log(apiArticles);
-            console.log(`news returned: ${apiArticles.length}`);
             const result = {
                 fetched: apiArticles.length,
                 inserted: 0,
